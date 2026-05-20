@@ -58,7 +58,7 @@ const siteData = {
       title: "博班生 PHD",
       people: [
         { name: "謝佩瑾" },
-        { name: "沈亦良" },
+        { name: "沈奕良" },
         { name: "張家銘" },
       
       ],
