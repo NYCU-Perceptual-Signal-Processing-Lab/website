@@ -20,16 +20,28 @@ const siteData = {
   ],
   focus: [
     {
-      title: "Speech Recognition",
-      description: "語音辨識、聲學模型、語者與語音特徵分析。",
+      title: "Speech & Speaker Understanding",
+      description: "語音辨識(ASR)、語音情緒辨識(SER)、語音活動偵測、語者分離(speaker diarization)、語者辨識(SID/SV)。",
     },
     {
-      title: "Speech Synthesis",
-      description: "文字轉語音、歌聲合成與語音表徵學習。",
+      title: "Speech Generation & Voice Conversion",
+      description: "語音合成(TTS)、語音轉換(VC)、電子喉等語音生成與轉換技術。",
     },
     {
-      title: "Speech Enhancement",
-      description: "語音增強、聲源分離與真實環境中的訊號處理。",
+      title: "Speech Enhancement & Restoration",
+      description: "語音強化、語音去噪、去混響、去回響(AEC)、人聲樂器分離(vocal/music separation)。",
+    },
+    {
+      title: "Spatial Audio & Auditory Perception",
+      description: "顱內空間定位(HRTF)、音訊升混(upmixing)、電子耳聽損補償、聽覺感知模型時頻譜調變。",
+    },
+    {
+      title: "Music & Singing Voice Intelligence",
+      description: "電吉他獨奏自動轉譜、音樂情緒辨識(MER)、音高追蹤、歌唱音色屬性分析。",
+    },
+    {
+      title: "Audio Security & Representation Learning",
+      description: "音訊深偽偵測(Spoofing Detection)、SSL 分析與音訊表徵學習。",
     },
   ],
   members: [
@@ -1141,6 +1153,15 @@ function collectSearchItems() {
       type: "Page",
       title: meta.title,
       text: `${meta.title} ${meta.subtitle}`,
+    });
+  });
+
+  siteData.focus.forEach((item) => {
+    items.push({
+      page: "home",
+      type: "Research Topic",
+      title: item.title,
+      text: `${item.title} ${item.description}`,
     });
   });
 
