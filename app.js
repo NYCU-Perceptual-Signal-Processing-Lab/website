@@ -51,7 +51,7 @@ const siteData = {
         {
           name: "冀泰石 教授",
           role: "Professor",
-          initials: "Chi",
+          initials: "冀",
           links: [
             {
               label: "Google Scholar",
@@ -69,8 +69,19 @@ const siteData = {
     {
       title: "博班生 PHD",
       people: [
-        { name: "謝佩瑾" },
-        { name: "沈奕良" },
+        { name: "謝佩瑾" },      
+      ],
+    },
+    {
+      title: "博班畢業生 PHD Alumni",
+      people: [
+        { name: "沈奕良",links: [
+            {
+              label: "Personal website",
+              url: "https://sites.google.com/view/yihliang/%E9%A6%96%E9%A0%81",
+            },
+          ],
+        },
         { name: "張家銘" },
       
       ],
@@ -95,7 +106,7 @@ const siteData = {
       ],
     },
     {
-      title: "畢業生 Alumni",
+      title: "碩班畢業生 Master Alumni",
       people: [
         { name: "黃肇元" },
         { name: "李翊瑄" },
@@ -123,7 +134,13 @@ const siteData = {
         { name: "簡詠倫" },
         { name: "林建宇" },
         { name: "李其芳" },
-        { name: "陳信華" },
+        { name: "陳信華",links: [
+            {
+              label: "Personal website",
+              url: "https://ooasd56.wixsite.com/cecilia",
+            },
+          ],
+        },
         { name: "林昕妍" },
         { name: "趙偉康" },
         { name: "張耕維" },
@@ -159,7 +176,33 @@ const siteData = {
       description: "測試",
     },
   ],
-  activities: [],
+  activities: [
+    {
+      year: "2025",
+      title: "期初聚餐",
+      image: "assets/2025期初聚餐.jpg",
+    },
+    {
+      year: "2025",
+      title: "畢業典禮",
+      image: "assets/2025畢業典禮.jpg",
+    },
+    {
+      year: "2025",
+      title: "謝師宴",
+      image: "assets/2025謝師宴.jpg",
+    },
+    {
+      year: "2024",
+      title: "教師節",
+      image: "assets/2024教師節.jpg",
+    },
+    {
+      year: "2024",
+      title: "老師生日",
+      image: "assets/2024老師生日.jpg",
+    },
+  ],
   publications: [
     {
         "year":  "2026",
@@ -853,15 +896,20 @@ const siteData = {
 ],
   links: [
     {
-      title: "Demo",
-      description: "PSPLab demonstration resources.",
-      url: "http://140.113.170.1:8001/",
+      title: "Singing voice separation",
+      description: "Harmonic-aware tri-path convolution recurrent network for singing voice separation.",
+      links: [
+        {
+          label: "Demo page",
+          url: "https://victoriatw.github.io/HA-TPCRN_singing_voice_separation/demo.html",
+        },
+        {
+          label: "Paper",
+          url: "https://pubs.aip.org/asa/jel/article/3/7/074801/2900868/Harmonic-aware-tri-path-convolution-recurrent",
+        },
+      ],
     },
-    {
-      title: "Paper",
-      description: "Publication and paper resources.",
-      url: "http://140.113.170.1:8002/",
-    },
+
   ],
 };
 
@@ -880,7 +928,7 @@ const pageMeta = {
   },
   activities: {
     title: "近期活動 Activities",
-    subtitle: "活動頁面已保留，後續可加入演講、會議與團隊紀錄。",
+    subtitle: "實驗室聚會、典禮與團隊活動紀錄。",
   },
   publications: {
     title: "歷年著作 Publications",
@@ -1071,9 +1119,30 @@ function renderActivities() {
     ${renderPageHero("activities")}
     <section class="section">
       <div class="section-inner">
-        ${renderEmpty("近期活動內容待補", "此頁面已先保留版型，後續可加入演講、研討會、出遊或實驗室活動紀錄。")}
+        ${
+          siteData.activities.length
+            ? `
+              <div class="activity-grid">
+                ${siteData.activities.map((activity) => renderActivityCard(activity)).join("")}
+              </div>
+            `
+            : renderEmpty("近期活動內容待補", "此頁面已先保留版型，後續可加入演講、研討會、出遊或實驗室活動紀錄。")
+        }
       </div>
     </section>
+  `;
+}
+
+function renderActivityCard(activity) {
+  const label = `${activity.year} ${activity.title}`;
+  return `
+    <article class="activity-card">
+      <img src="${escapeHtml(activity.image)}" alt="${escapeHtml(label)}" loading="lazy">
+      <div>
+        <span>${escapeHtml(activity.year)}</span>
+        <h2>${escapeHtml(activity.title)}</h2>
+      </div>
+    </article>
   `;
 }
 
@@ -1119,13 +1188,22 @@ function renderLinks() {
         <div class="link-grid">
           ${siteData.links
             .map(
-              (link) => `
-                <article class="link-card">
-                  <strong>${escapeHtml(link.title)}</strong>
-                  <span>${escapeHtml(link.description)}</span>
-                  <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.url)}</a>
-                </article>
-              `,
+              (link) => {
+                const links = link.links || [{ label: link.description || "Link", url: link.url }];
+                return `
+                  <article class="link-card">
+                    <div>
+                      <strong>${escapeHtml(link.title)}</strong>
+                      ${link.description ? `<span>${escapeHtml(link.description)}</span>` : ""}
+                    </div>
+                    <div class="link-actions">
+                      ${links
+                        .map((item) => `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener">${escapeHtml(item.label)}</a>`)
+                        .join("")}
+                    </div>
+                  </article>
+                `;
+              },
             )
             .join("")}
         </div>
@@ -1185,6 +1263,15 @@ function collectSearchItems() {
     });
   });
 
+  siteData.activities.forEach((item) => {
+    items.push({
+      page: "activities",
+      type: "Activity",
+      title: `${item.year} ${item.title}`,
+      text: `${item.year} ${item.title} ${item.image}`,
+    });
+  });
+
   siteData.publications.forEach((group) => {
     group.items.forEach((item) => {
       const title = item.title || item.text.split('"')[1] || item.text.slice(0, 72);
@@ -1199,11 +1286,12 @@ function collectSearchItems() {
   });
 
   siteData.links.forEach((link) => {
+    const links = link.links || [{ label: link.description || "Link", url: link.url }];
     items.push({
       page: "links",
       type: "Link",
       title: link.title,
-      text: `${link.title} ${link.description} ${link.url}`,
+      text: `${link.title} ${link.description || ""} ${links.map((item) => `${item.label} ${item.url}`).join(" ")}`,
     });
   });
 
