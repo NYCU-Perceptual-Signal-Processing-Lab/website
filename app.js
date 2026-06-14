@@ -69,7 +69,13 @@ const siteData = {
     {
       title: "博班生 PHD",
       people: [
-        { name: "謝佩瑾" },      
+        { name: "謝佩瑾" ,links: [
+            {
+              label: "Github page",
+              url: "https://github.com/PachiEverywhere",
+            },
+          ],
+        },      
       ],
     },
     {
@@ -177,6 +183,11 @@ const siteData = {
     },
   ],
   activities: [
+    {
+      year: "2026",
+      title: "畢業典禮",
+      image: "assets/2026畢業典禮.jpg",
+    },
     {
       year: "2025",
       title: "期初聚餐",
